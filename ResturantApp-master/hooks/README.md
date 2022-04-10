@@ -18,9 +18,11 @@
 # under the License.
 #
 -->
+
 # Cordova Hooks
 
 Cordova Hooks represent special scripts which could be added by application and plugin developers or even by your own build system  to customize cordova commands. Hook scripts could be defined by adding them to the special predefined folder (`/hooks`) or via configuration files (`config.xml` and `plugin.xml`) and run serially in the following order:
+
 * Application hooks from `/hooks`;
 * Application hooks from `config.xml`;
 * Plugin hooks from `plugins/.../plugin.xml`.
@@ -30,6 +32,7 @@ __Remember__: Make your scripts executable.
 __Note__: `.cordova/hooks` directory is also supported for backward compatibility, but we don't recommend using it as it is deprecated.
 
 ## Supported hook types
+
 The following hook types are supported:
 
     after_build/
@@ -66,47 +69,48 @@ The following hook types are supported:
     pre_package/ <-- Windows 8 and Windows Phone only.
 
 ## Ways to define hooks
+
 ### Via '/hooks' directory
+
 To execute custom action when corresponding hook type is fired, use hook type as a name for a subfolder inside 'hooks' directory and place you script file here, for example:
 
     # script file will be automatically executed after each build
     hooks/after_build/after_build_custom_action.js
 
-
 ### Config.xml
 
 Hooks can be defined in project's `config.xml` using `<hook>` elements, for example:
 
-    <hook type="before_build" src="scripts/appBeforeBuild.bat" />
-    <hook type="before_build" src="scripts/appBeforeBuild.js" />
-    <hook type="before_plugin_install" src="scripts/appBeforePluginInstall.js" />
+    `<hook type="before_build" src="scripts/appBeforeBuild.bat" />`
+    `<hook type="before_build" src="scripts/appBeforeBuild.js" />`
+    `<hook type="before_plugin_install" src="scripts/appBeforePluginInstall.js" />`
 
-    <platform name="wp8">
-        <hook type="before_build" src="scripts/wp8/appWP8BeforeBuild.bat" />
-        <hook type="before_build" src="scripts/wp8/appWP8BeforeBuild.js" />
-        <hook type="before_plugin_install" src="scripts/wp8/appWP8BeforePluginInstall.js" />
+    `<platform name="wp8">`
+        `<hook type="before_build" src="scripts/wp8/appWP8BeforeBuild.bat" />`
+        `<hook type="before_build" src="scripts/wp8/appWP8BeforeBuild.js" />`
+        `<hook type="before_plugin_install" src="scripts/wp8/appWP8BeforePluginInstall.js" />`
         ...
-    </platform>
+    `</platform>`
 
-    <platform name="windows8">
-        <hook type="before_build" src="scripts/windows8/appWin8BeforeBuild.bat" />
-        <hook type="before_build" src="scripts/windows8/appWin8BeforeBuild.js" />
-        <hook type="before_plugin_install" src="scripts/windows8/appWin8BeforePluginInstall.js" />
+    `<platform name="windows8">`
+        `<hook type="before_build" src="scripts/windows8/appWin8BeforeBuild.bat" />`
+        `<hook type="before_build" src="scripts/windows8/appWin8BeforeBuild.js" />`
+        `<hook type="before_plugin_install" src="scripts/windows8/appWin8BeforePluginInstall.js" />`
         ...
-    </platform>
+    `</platform>`
 
 ### Plugin hooks (plugin.xml)
 
 As a plugin developer you can define hook scripts using `<hook>` elements in a `plugin.xml` like that:
 
-    <hook type="before_plugin_install" src="scripts/beforeInstall.js" />
-    <hook type="after_build" src="scripts/afterBuild.js" />
+    `<hook type="before_plugin_install" src="scripts/beforeInstall.js" />`
+    `<hook type="after_build" src="scripts/afterBuild.js" />`
 
-    <platform name="wp8">
-        <hook type="before_plugin_install" src="scripts/wp8BeforeInstall.js" />
-        <hook type="before_build" src="scripts/wp8BeforeBuild.js" />
+    `<platform name="wp8">`
+        `<hook type="before_plugin_install" src="scripts/wp8BeforeInstall.js" />`
+        `<hook type="before_build" src="scripts/wp8BeforeBuild.js" />`
         ...
-    </platform>
+    `</platform>`
 
 `before_plugin_install`, `after_plugin_install`, `before_plugin_uninstall` plugin hooks will be fired exclusively for the plugin being installed/uninstalled.
 
@@ -115,6 +119,7 @@ As a plugin developer you can define hook scripts using `<hook>` elements in a `
 ### Javascript
 
 If you are writing hooks in Javascript you should use the following module definition:
+
 ```javascript
 module.exports = function(context) {
     ...
@@ -122,6 +127,7 @@ module.exports = function(context) {
 ```
 
 You can make your scipts async using Q:
+
 ```javascript
 module.exports = function(context) {
     var Q = context.requireCordovaModule('q');
@@ -137,6 +143,7 @@ module.exports = function(context) {
 ```
 
 `context` object contains hook type, executed script full path, hook options, command-line arguments passed to Cordova and top-level "cordova" object:
+
 ```json
 {
 	"hook": "before_plugin_install",
@@ -162,9 +169,11 @@ module.exports = function(context) {
 }
 
 ```
+
 `context.opts.plugin` object will only be passed to plugin hooks scripts.
 
 You can also require additional Cordova modules in your script using `context.requireCordovaModule` in the following way:
+
 ```javascript
 var Q = context.requireCordovaModule('q');
 ```
